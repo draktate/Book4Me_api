@@ -8,16 +8,11 @@ import usersRoute from "./routes/users.js";
 
 import cors from "cors";
 
-
-
-
 import cookieParser from "cookie-parser";
 
 // mongodb+srv://draktate:<password>@cluster0.cxodglc.mongodb.net/?retryWrites=true&w=majority
 dotenv.config();
 let error="";
-
-
 
 const options = {
     autoIndex: false, // Don't build indexes
@@ -26,7 +21,6 @@ const options = {
     socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
     family: 4 // Use IPv4, skip trying IPv6
   };
-
 
 const connect = async() =>{ 
      try{
