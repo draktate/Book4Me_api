@@ -4,11 +4,7 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "start": "node index.js"
-  },
-  "engines": {
-    "node": ">=18.1.2",
-    "npm": ">=18.12.1"
+    "start": "node app.js"
   },
   "keywords": [],
   "author": "",
