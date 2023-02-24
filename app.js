@@ -78,7 +78,7 @@ app.use(express.json());
  app.listen(process.env.PORT||7200, async()=> { 
     await connect();
     console.log("Connect to the backend is succesfull:", error);
-   // console.log("MONGO:", process.env.MONGO);
+   console.log("MONGO:", process.env.MONGO);
 });
 
 mongoose.connection.on("disconnected", ()=>{console.log("MongoDB disconnected!")})
