@@ -5,6 +5,8 @@ import authRoute from "./routes/auth.js";
 import hotelRoute from "./routes/hotels.js";
 import roomsRoute from "./routes/rooms.js";
 import usersRoute from "./routes/users.js";
+import path from 'path';
+const __dirname = path.resolve();
 
 import cors from "cors";
 
@@ -52,8 +54,10 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 
+
+
 //middleware
- 
+ //app.get("/",   (req, res)=> { console.log("dir:", __dirname), res.sendFile(path.join(__dirname+'/index.html'))  }  ) 
  app.use("/api/auth", authRoute);
  app.use("/api/users", usersRoute);
  app.use("/api/hotels", hotelRoute);
