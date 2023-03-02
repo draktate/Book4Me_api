@@ -50,7 +50,8 @@ const app = express();
 const allowedOrigins = process.env.ORIGINs.split(','); 
 
 app.use(cors({
-  origin: '*'
+  origin: '*',
+  methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
 
 }))
 
