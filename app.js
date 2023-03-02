@@ -49,7 +49,12 @@ const app = express();
 //const allowedOrigins = ['http://localhost:3000','http://yourapp.com'];
 const allowedOrigins = process.env.ORIGINs.split(','); 
 
+app.use(cors({
+  origin: '*'
 
+}))
+
+/*
 app.use(cors({
         origin: function(origin, callback){
           // allow requests with no origin 
@@ -64,7 +69,7 @@ app.use(cors({
         }
       }));
 
-
+*/
       console.log("allowed from origins: ",allowedOrigins )
 //    app.use(cors(corsOptions));
 
