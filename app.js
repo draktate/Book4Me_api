@@ -6,11 +6,10 @@ import hotelRoute from "./routes/hotels.js";
 import roomsRoute from "./routes/rooms.js";
 import usersRoute from "./routes/users.js";
 import path from 'path';
-const __dirname = path.resolve();
-
 import cors from "cors";
-
 import cookieParser from "cookie-parser";
+
+const __dirname = path.resolve();
 
 // mongodb+srv://draktate:<password>@cluster0.cxodglc.mongodb.net/?retryWrites=true&w=majority
 dotenv.config();
@@ -46,68 +45,44 @@ const app = express();
     //credentials:true,            
     //access-control-allow-credentials:true
     //access-control-allow-origin:*,
-//const allowedOrigins = ['http://localhost:3000','http://yourapp.com'];
-const allowedOrigins = process.env.ORIGINs.split(','); 
+    //const allowedOrigins = ['http://localhost:3000','https://master.d1zn1rfcz5wa41.amplifyapp.com'];
+   // const allowedOrigins = process.env.ORIGINS.split(','); 
 
-app.use(cors({
-  origin: '*',
-  methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
+app.use(cors())
 
-}))
-
-/*
-app.use(cors({
-        origin: function(origin, callback){
-          // allow requests with no origin 
-          // (like mobile apps or curl requests)
-          if(!origin) return callback(null, true);
-          if(allowedOrigins.indexOf(origin) === -1){
-            var msg = 'The CORS policy for this site does not ' +
-                      'allow access from the specified Origin.';
-            return callback(new Error(msg), false);
-          }
-          return callback(null, true);
-        }
-      }));
-
-*/
-      console.log("allowed from origins: ",allowedOrigins )
-//    app.use(cors(corsOptions));
-
+app.use((req, res, error, next)=>{
+    res.header("Access-control-Allow-Origin","*");
+    res.header("Access-control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization" );
+    if(req.method==="OPTIONS"){
+      res.header("Access-control-Allow-Methods","PUT, POST, PATCH, DELETE, GET");
+      return res.status(200).json({});
+    }
+    next();
+  }
+)
 
 app.use(cookieParser());
 app.use(express.json());
 
 
-
 //middleware
- //app.get("/",   (req, res)=> { console.log("dir:", __dirname), res.sendFile(path.join(__dirname+'/index.html'))  }  ) 
+ app.get("/",   (req, res)=> { console.log("dir:", __dirname), res.sendFile(path.join(__dirname+'/index.html'))  }  ) 
  app.use("/api/auth", authRoute);
  app.use("/api/users", usersRoute);
  app.use("/api/hotels", hotelRoute);
  app.use("/api/rooms", roomsRoute);
-
-
  app.use((err, req, resp, next)=>{
 
-    const errorStatus=err.status || 500;
-    const errorMessage=err.message || "Something went wrong!"
+  const errorStatus=err.status || 500;
+  const errorMessage=err.message || "Something went wrong!"
 
-    return resp.status(errorStatus).json({
-        success:false,
-        status:errorStatus,
-        message:errorMessage,
-        stack:err.stack
-    })
+  return resp.status(errorStatus).json({
+    success:false,
+    status:errorStatus,
+    message:errorMessage,
+    stack:err.stack
+  })
 
-})
-
-
- app.listen(process.env.PORT||7200, async()=> { 
-    await connect();
-    console.log("Connect to the backend is succesfull:", error);
-   console.log("MONGO:", process.env.MONGO);
 });
 
-mongoose.connection.on("disconnected", ()=>{console.log("MongoDB disconnected!")})
-mongoose.connection.on("connected", ()=>{console.log("MongoDB  connected!")})
+export default app;
